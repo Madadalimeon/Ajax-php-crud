@@ -1,6 +1,7 @@
 <?php include "config.php"; ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,8 +88,15 @@
                                     <td><?php echo $db['FatherName'];  ?></td>
                                     <td><?php echo $db['Email'];  ?></td>
                                     <td class="">
-                                        <a href="Delete.php?id=<?php echo $db['id']; ?>"><i class="fa-solid fa-user-xmark text-danger "></i></a>
-                                        <a href="update.php?id=<?php echo $db['id']; ?>"><i class="fa-solid fa-user-plus text-success"></i></a>
+                                        <a href="#" class="deleteBtn" data-id="<?php echo $db['id']; ?>">
+                                            <i class="fa-solid fa-user-xmark text-danger"></i>
+                                        </a>
+
+                                        <!-- <a href="update.php?id=<?php // echo $db['id']; 
+                                                                    ?>">
+                                            <i class="fa-solid fa-user-plus text-success"></i>
+                                        </a> -->
+
                                     </td>
                         </tr>
                 <?php
@@ -104,6 +112,29 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $(document).on("click", ".deleteBtn", function() {
+                var StudentId = $(this).data("id");
+                var element = this;
+                $.ajax({
+                    url: "Delete.php",
+                    type: "POST",
+                    data: {
+                        id: StudentId
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            $(element).closest("tr").fadeOut();
+                        }
+                    }
+                })
+
+            })
+
+        })
+    </script>
 </body>
 
 </html>
